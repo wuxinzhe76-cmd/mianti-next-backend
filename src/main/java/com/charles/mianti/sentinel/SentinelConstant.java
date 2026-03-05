@@ -4,7 +4,7 @@ package com.charles.mianti.sentinel;
  * Sentinel 限流熔断常量
  *
  * @author Charles
- * @from <a href="https://www.code-nav.cn">编程导航学习圈</a>
+ * @from 
  */
 public interface SentinelConstant {
 
