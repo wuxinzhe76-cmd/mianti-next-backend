@@ -1,5 +1,4 @@
 package com.charles.mianti.sentinel;
-
 /**
  * Sentinel 限流熔断常量
  *
