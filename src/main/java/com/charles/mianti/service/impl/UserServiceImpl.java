@@ -234,9 +234,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public boolean userLogout(HttpServletRequest request) {
-        StpUtil.checkLogin();
-        // 移除登录态
-        StpUtil.logout();
+        // 即使未登录也允许执行注销操作
+        if (StpUtil.isLogin()) {
+            StpUtil.logout();
+        }
 //        if (request.getSession().getAttribute(USER_LOGIN_STATE) == null) {
 //            throw new BusinessException(ErrorCode.OPERATION_ERROR, "未登录");
 //        }

@@ -26,10 +26,10 @@ import java.util.List;
  * @author Charles
  * @from 
  */
-@Component
+// @Component
 public class SentinelRulesManager {
 
-    @PostConstruct
+    // @PostConstruct
     public void initRules() throws Exception {
         initFlowRules();
         initDegradeRules();
