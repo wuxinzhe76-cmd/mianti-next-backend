@@ -1,0 +1,32 @@
+{
+  "name": "mianti-next-frontend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
+    "@vue/eslint-config-prettier": "^10.2.0",
+    "axios": "^1.13.6",
+    "element-plus": "^2.13.5",
+    "eslint": "^10.0.3",
+    "pinia": "^3.0.4",
+    "prettier": "^3.8.1",
+    "sass": "^1.98.0",
+    "vitest": "^4.1.0",
+    "vue": "^3.5.30",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.0",
+    "@vitejs/plugin-vue": "^6.0.5",
+    "@vue/tsconfig": "^0.9.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.0.0",
+    "vue-tsc": "^3.2.5"
+  }
+}
