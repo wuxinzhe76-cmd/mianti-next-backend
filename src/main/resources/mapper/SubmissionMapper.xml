@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.charles.mianti.mapper.SubmissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.charles.mianti.model.entity.Submission">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="questionId" column="questionId" jdbcType="BIGINT"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="languageCode" column="languageCode" jdbcType="VARCHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="VARCHAR"/>
+            <result property="executionTime" column="executionTime" jdbcType="INTEGER"/>
+            <result property="executionMemory" column="executionMemory" jdbcType="INTEGER"/>
+            <result property="testCaseScore" column="testCaseScore" jdbcType="INTEGER"/>
+            <result property="totalTestCase" column="totalTestCase" jdbcType="INTEGER"/>
+            <result property="passedTestCase" column="passedTestCase" jdbcType="INTEGER"/>
+            <result property="errorMessage" column="errorMessage" jdbcType="VARCHAR"/>
+            <result property="ip" column="ip" jdbcType="VARCHAR"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,questionId,userId,
+        languageCode,code,status,
+        executionTime,executionMemory,testCaseScore,
+        totalTestCase,passedTestCase,errorMessage,
+        ip,createTime,updateTime
+    </sql>
+
+</mapper>

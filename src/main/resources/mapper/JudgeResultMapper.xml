@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.charles.mianti.mapper.JudgeResultMapper">
+
+    <resultMap id="BaseResultMap" type="com.charles.mianti.model.entity.JudgeResult">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="submissionId" column="submissionId" jdbcType="BIGINT"/>
+            <result property="questionId" column="questionId" jdbcType="BIGINT"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="languageCode" column="languageCode" jdbcType="VARCHAR"/>
+            <result property="code" column="code" jdbcType="VARCHAR"/>
+            <result property="verdict" column="verdict" jdbcType="VARCHAR"/>
+            <result property="executionTime" column="executionTime" jdbcType="INTEGER"/>
+            <result property="executionMemory" column="executionMemory" jdbcType="INTEGER"/>
+            <result property="passedTestCase" column="passedTestCase" jdbcType="INTEGER"/>
+            <result property="totalTestCase" column="totalTestCase" jdbcType="INTEGER"/>
+            <result property="testCaseResults" column="testCaseResults" jdbcType="VARCHAR"/>
+            <result property="compileOutput" column="compileOutput" jdbcType="VARCHAR"/>
+            <result property="runOutput" column="runOutput" jdbcType="VARCHAR"/>
+            <result property="errorMessage" column="errorMessage" jdbcType="VARCHAR"/>
+            <result property="judgeServer" column="judgeServer" jdbcType="VARCHAR"/>
+            <result property="judgeTime" column="judgeTime" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,submissionId,questionId,
+        userId,languageCode,code,
+        verdict,executionTime,executionMemory,
+        passedTestCase,totalTestCase,testCaseResults,
+        compileOutput,runOutput,errorMessage,
+        judgeServer,judgeTime,createTime
+    </sql>
+
+</mapper>
