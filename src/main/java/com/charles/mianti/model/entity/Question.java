@@ -40,6 +40,46 @@ public class Question implements Serializable {
     private String answer;
 
     /**
+     * 题目类型（PROGRAMMING/CHOICE/FILL_IN）
+     */
+    private String type;
+
+    /**
+     * 难度（EASY/MEDIUM/HARD）
+     */
+    private String difficulty;
+
+    /**
+     * 代码模板（JSON 格式，存储各语言的初始模板）
+     */
+    private String template;
+
+    /**
+     * 时间限制（ms）
+     */
+    private Integer timeLimit;
+
+    /**
+     * 内存限制（MB）
+     */
+    private Integer memoryLimit;
+
+    /**
+     * 通过人数
+     */
+    private Integer acceptedCount;
+
+    /**
+     * 提交次数
+     */
+    private Integer submissionCount;
+
+    /**
+     * 通过率
+     */
+    private Double acceptanceRate;
+
+    /**
      * 创建用户 id
      */
     private Long userId;

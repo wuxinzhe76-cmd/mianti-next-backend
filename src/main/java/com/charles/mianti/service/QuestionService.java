@@ -8,6 +8,7 @@ import com.charles.mianti.model.entity.Question;
 import com.charles.mianti.model.vo.QuestionVO;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,6 +74,13 @@ public interface QuestionService extends IService<Question> {
      *
      * @param questionIdList
      */
-
     void batchDeleteQuestions(List<Long> questionIdList);
+
+    /**
+     * 查询题目列表（包括已被删除的数据）
+     *
+     * @param minUpdateTime 最小更新时间
+     * @return 题目列表
+     */
+    List<Question> listQuestionWithDelete(Date minUpdateTime);
 }

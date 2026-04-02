@@ -6,6 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Date;
+
 import com.charles.mianti.common.ErrorCode;
 import com.charles.mianti.constant.CommonConstant;
 import com.charles.mianti.exception.ThrowUtils;
@@ -21,9 +27,7 @@ import com.charles.mianti.service.QuestionBankQuestionService;
 import com.charles.mianti.service.QuestionService;
 import com.charles.mianti.service.UserService;
 import com.charles.mianti.utils.SqlUtils;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
+
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.sort.SortBuilder;
@@ -322,6 +326,19 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         }
         page.setRecords(resourceList);
         return page;
+    }
+
+    /**
+     * 查询题目列表（包括已被删除的数据）
+     *
+     * @param minUpdateTime 最小更新时间
+     * @return 题目列表
+     */
+    @Override
+    public List<Question> listQuestionWithDelete(Date minUpdateTime) {
+        LambdaQueryWrapper<Question> lambdaQueryWrapper = Wrappers.lambdaQuery(Question.class)
+                .ge(ObjectUtils.isNotEmpty(minUpdateTime), Question::getUpdateTime, minUpdateTime);
+        return this.list(lambdaQueryWrapper);
     }
 
     /**
