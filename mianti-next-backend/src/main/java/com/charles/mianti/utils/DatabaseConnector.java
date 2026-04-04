@@ -18,7 +18,7 @@ public class DatabaseConnector {
 
     public static void main(String[] args) {
         // 数据库连接信息
-        String host = "209.38.31.91";
+        String host = "100.98.245.102";
         int port = 3306;
         String username = "root";
         String password = "root";

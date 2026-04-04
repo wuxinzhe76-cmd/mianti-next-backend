@@ -1,6 +1,6 @@
-# 线上配置文件
+# 测试配置文件
 # @author Charles
-# @from <a href="https://code-nav.cn">编程导航</a>
+# 
 server:
   port: 8101
 spring:
@@ -8,24 +8,20 @@ spring:
   # todo 需替换配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mianti
+    url: jdbc:mysql://100.98.245.102:3306/mianti
     username: root
     password: 123456
   # Redis 配置
   # todo 需替换配置
   redis:
     database: 1
-    host: localhost
+    host: 100.98.245.102
     port: 6379
     timeout: 5000
     password: 123456
-mybatis-plus:
-  configuration:
-    # 生产环境关闭日志
-    log-impl: ''
-# 接口文档配置
-knife4j:
-  basic:
-    enable: true
+  # Elasticsearch 配置
+  # todo 需替换配置
+  elasticsearch:
+    uris: http://100.98.245.102:9200
     username: root
     password: 123456

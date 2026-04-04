@@ -23,7 +23,7 @@ spring:
   # 数据库配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://209.38.31.91:3306/mianti
+    url: jdbc:mysql://100.98.245.102:3306/mianti
     username: root
     password: root
     # 指定数据源类型
@@ -91,18 +91,18 @@ spring:
         reset-enable: false              # 不允许清空统计数据,重新计算
         login-username: root # 配置监控页面访问密码
         login-password: 123
-        allow: 127.0.0.1 # 允许访问的地址，如果allow没有配置或者为空，则允许所有访问
+        allow: 100.98.245.102 # 允许访问的地址，如果allow没有配置或者为空，则允许所有访问
         deny: # 拒绝访问的地址，deny优先于allow，如果在deny列表中，就算在allow列表中，也会被拒绝
   # Redis 配置
   redis:
     database: 1
-    host: 209.38.31.91
+    host: 100.98.245.102
     port: 6379
     timeout: 5000
     password: 123456
   # Elasticsearch 配置
   elasticsearch:
-    uris: http://209.38.31.91:9200
+    uris: http://100.98.245.102:9200
   # 文件上传
   servlet:
     multipart:
@@ -131,11 +131,11 @@ hotkey:
   app-name: mianti
   caffeine-size: 10000
   push-period: 1000
-  etcd-server: http://localhost:2379
+  etcd-server: http://100.98.245.102:2379
 # 配置中心
 nacos:
   config:
-    server-addr: 209.38.31.91:8848  # nacos 地址
+    server-addr: 100.98.245.102:8848  # nacos 地址
     bootstrap:
       enable: true  # 预加载
     data-id: mianti # 控制台填写的 Data ID
