@@ -42,7 +42,7 @@
 import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import * as monaco from 'monaco-editor';
 import { VideoPlay, Download } from '@element-plus/icons-vue';
-import { ElMessage } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 interface ProgrammingLanguage {
   id: number;

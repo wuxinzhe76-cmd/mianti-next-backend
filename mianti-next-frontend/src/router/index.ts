@@ -122,6 +122,18 @@ const routes: RouteRecord[] = [
     ],
   },
   {
+    path: '/question/practice-list',
+    name: 'PracticeList',
+    component: () => import('@/views/practice/PracticeList.vue'),
+    meta: { title: '在线练习', requiresAuth: true },
+  },
+  {
+    path: '/practice/:id',
+    name: 'QuestionPractice',
+    component: () => import('@/views/practice/QuestionPractice.vue'),
+    meta: { title: '在线练习', requiresAuth: true },
+  },
+  {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: () => import('@/views/NotFound.vue'),

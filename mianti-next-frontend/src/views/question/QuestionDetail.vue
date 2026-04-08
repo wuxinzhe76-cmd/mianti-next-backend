@@ -52,6 +52,10 @@
       </div>
 
       <div class="action-buttons">
+        <el-button type="success" @click="goToPractice" v-if="question?.type === 'PROGRAMMING'">
+          <el-icon><VideoPlay /></el-icon>
+          在线练习
+        </el-button>
         <el-button type="primary" @click="goToEdit" v-if="isAdmin">
           <el-icon><Edit /></el-icon>
           编辑
@@ -133,6 +137,12 @@ const getDifficultyType = (difficulty: string | undefined) => {
 const goToEdit = () => {
   if (question.value) {
     router.push(`/question/edit/${question.value.id}`);
+  }
+};
+
+const goToPractice = () => {
+  if (question.value) {
+    router.push(`/practice/${question.value.id}`);
   }
 };
 

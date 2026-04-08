@@ -19,11 +19,12 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label="题目类型">
-              <el-select v-model="searchForm.type" placeholder="请选择题目类型">
+              <el-select v-model="searchForm.type" placeholder="请选择题目类型" clearable>
                 <el-option label="单选题" value="single" />
                 <el-option label="多选题" value="multiple" />
                 <el-option label="判断题" value="judgment" />
                 <el-option label="简答题" value="essay" />
+                <el-option label="编程题" value="PROGRAMMING" />
               </el-select>
             </el-form-item>
           </el-col>
@@ -86,17 +87,26 @@
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="创建时间" width="180" />
-        <el-table-column label="操作" width="180">
+        <el-table-column label="操作" width="240">
           <template #default="scope">
             <el-button size="small" @click="goToDetail(scope.row.id)">
               <el-icon><View /></el-icon>
               查看
             </el-button>
-            <el-button size="small" type="primary" @click="goToEdit(scope.row.id)">
+            <el-button
+              v-if="scope.row.type === 'PROGRAMMING'"
+              size="small"
+              type="success"
+              @click="goToPractice(scope.row.id)"
+            >
+              <el-icon><VideoPlay /></el-icon>
+              练习
+            </el-button>
+            <el-button size="small" type="primary" @click="goToEdit(scope.row.id)" v-if="isAdmin">
               <el-icon><Edit /></el-icon>
               编辑
             </el-button>
-            <el-button size="small" type="danger" @click="handleDelete(scope.row.id)">
+            <el-button size="small" type="danger" @click="handleDelete(scope.row.id)" v-if="isAdmin">
               <el-icon><Delete /></el-icon>
               删除
             </el-button>
@@ -119,14 +129,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { useQuestionStore } from '@/stores/question';
+import { useUserStore } from '@/stores/user';
 import type { QuestionVO, QuestionQueryRequest } from '@/types';
 
 const router = useRouter();
 const questionStore = useQuestionStore();
+const userStore = useUserStore();
+const isAdmin = computed(() => userStore.isAdmin);
 
 const loading = ref(false);
 const currentPage = ref(1);
@@ -146,7 +159,8 @@ const getTypeLabel = (type: string) => {
     'single': '单选题',
     'multiple': '多选题',
     'judgment': '判断题',
-    'essay': '简答题'
+    'essay': '简答题',
+    'PROGRAMMING': '编程题'
   };
   return typeMap[type] || type;
 };
@@ -170,6 +184,10 @@ const goToEdit = (id: number) => {
 
 const goToDetail = (id: number) => {
   router.push(`/question/detail/${id}`);
+};
+
+const goToPractice = (id: number) => {
+  router.push(`/practice/${id}`);
 };
 
 const handleDelete = async (id: number) => {

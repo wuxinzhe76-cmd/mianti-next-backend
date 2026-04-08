@@ -26,6 +26,10 @@
           <el-icon><Document /></el-icon>
           <span>题目</span>
         </el-menu-item>
+        <el-menu-item index="/question/practice-list">
+          <el-icon><Monitor /></el-icon>
+          <span>在线练习</span>
+        </el-menu-item>
         <el-menu-item index="/questionBankQuestion/list" v-if="isAdmin">
           <el-icon><Link /></el-icon>
           <span>题库题目关联</span>
@@ -38,7 +42,7 @@
           <el-avatar :size="32" :src="user?.userAvatar || ''">
             {{ user?.userName?.charAt(0) || 'U' }}
           </el-avatar>
-          <span class="user-name">{{ user?.userName || '未登录' }}</span>
+          <span class="user-name">{{ userStore.displayLabel }}</span>
           <el-icon class="el-icon--right"><ArrowDown /></el-icon>
         </span>
         <template #dropdown>

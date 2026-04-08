@@ -6,7 +6,13 @@
         <el-card class="question-card">
           <template #header>
             <div class="question-header">
-              <h2 class="question-title">{{ question.title }}</h2>
+              <div class="header-top">
+                <el-button size="small" @click="router.push('/question/practice-list')">
+                  <el-icon><ArrowLeft /></el-icon>
+                  返回列表
+                </el-button>
+                <h2 class="question-title">{{ question.title }}</h2>
+              </div>
               <div class="question-meta">
                 <el-tag :type="getDifficultyType(question.difficulty)" size="small">
                   {{ getDifficultyText(question.difficulty) }}
@@ -63,13 +69,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, reactive, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { ElMessage, ElMessageBox } from 'element-plus';
-import { Clock, Coin } from '@element-plus/icons-vue';
+import { Clock, Coin, ArrowLeft } from '@element-plus/icons-vue';
 import CodeEditor from '@/components/CodeEditor.vue';
 import JudgeResult from '@/components/JudgeResult.vue';
-import axios from 'axios';
+import axios from '@/utils/axios';
 
 interface Question {
   id: number;
@@ -109,6 +115,7 @@ interface JudgeResult {
 }
 
 const route = useRoute();
+const router = useRouter();
 const questionId = computed<number>(() => Number(route.params.id) || Number(route.query.id));
 
 const question = reactive<Question>({
@@ -156,7 +163,7 @@ const getDifficultyText = (difficulty?: string) => {
 // 加载题目详情
 const loadQuestion = async () => {
   try {
-    const response = await axios.get(`/api/question/${questionId.value}`);
+    const response = await axios.get('/question/get/vo', { params: { id: questionId.value } });
     if (response.data.code === 0 && response.data.data) {
       Object.assign(question, response.data.data);
       
@@ -179,7 +186,7 @@ const loadQuestion = async () => {
 // 加载示例测试用例
 const loadExampleTestCases = async () => {
   try {
-    const response = await axios.get(`/api/testcase/question/${questionId.value}/examples`);
+    const response = await axios.get(`/testcase/question/${questionId.value}/examples`);
     if (response.data.code === 0 && response.data.data) {
       exampleTestCases.value = response.data.data;
     }
@@ -197,7 +204,7 @@ const handleRunCode = async (code: string, language: string) => {
 // 提交代码
 const handleSubmitCode = async (code: string, language: string) => {
   try {
-    const response = await axios.post('/api/judge/submit', {
+    const response = await axios.post('/judge/submit', {
       questionId: questionId.value,
       languageCode: language,
       code: code
@@ -224,7 +231,7 @@ const startPollingResult = (submissionId: number) => {
   
   const poll = async () => {
     try {
-      const response = await axios.get(`/api/judge/result/${submissionId}`);
+      const response = await axios.get(`/judge/result/${submissionId}`);
       
       if (response.data.code === 0 && response.data.data) {
         judgeResult.value = response.data.data;
@@ -275,6 +282,10 @@ onMounted(() => {
     loadExampleTestCases();
   }
 });
+
+onBeforeUnmount(() => {
+  stopPolling();
+});
 </script>
 
 <style scoped lang="scss">
@@ -306,10 +317,13 @@ onMounted(() => {
   }
   
   .question-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    
+    .header-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
     .question-title {
       font-size: 20px;
       font-weight: 600;
