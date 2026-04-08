@@ -114,24 +114,25 @@ const getTypeLabel = (type: string | undefined) => {
   return typeMap[type] || type;
 };
 
-const getDifficultyLabel = (difficulty: string | undefined) => {
+const getDifficultyLabel = (difficulty: string | number | undefined) => {
   if (!difficulty) return '';
   const difficultyMap: Record<string, string> = {
     'easy': '简单',
     'medium': '中等',
     'hard': '困难'
   };
-  return difficultyMap[difficulty] || difficulty;
+  const key = String(difficulty);
+  return difficultyMap[key] || key;
 };
 
-const getDifficultyType = (difficulty: string | undefined) => {
+const getDifficultyType = (difficulty: string | number | undefined) => {
   if (!difficulty) return 'info';
   const typeMap: Record<string, string> = {
     'easy': 'success',
     'medium': 'warning',
     'hard': 'danger'
   };
-  return typeMap[difficulty] || 'info';
+  return typeMap[String(difficulty)] || 'info';
 };
 
 const goToEdit = () => {

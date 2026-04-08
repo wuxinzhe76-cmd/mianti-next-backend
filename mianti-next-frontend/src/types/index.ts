@@ -3,6 +3,7 @@ export interface BaseResponse<T> {
   code: number;
   message: string;
   data: T;
+  [key: string]: any;
 }
 
 // 分页响应类型
@@ -38,14 +39,16 @@ export interface LoginUserVO {
 
 // 题库相关类型
 export interface QuestionBankAddRequest {
-  title: string;
+  title?: string;
+  name?: string;
   description: string;
   picture?: string;
 }
 
 export interface QuestionBankUpdateRequest {
   id: number;
-  title: string;
+  title?: string;
+  name?: string;
   description: string;
   picture?: string;
 }
@@ -55,6 +58,7 @@ export interface QuestionBankQueryRequest {
   notId?: number;
   userId?: number;
   title?: string;
+  name?: string;
   searchText?: string;
   description?: string;
   picture?: string;
@@ -66,6 +70,7 @@ export interface QuestionBankQueryRequest {
 export interface QuestionBankVO {
   id: number;
   title: string;
+  name?: string;
   description: string;
   picture?: string;
   userId: number;
@@ -78,6 +83,9 @@ export interface QuestionBankVO {
 export interface QuestionAddRequest {
   title: string;
   content: string;
+  type?: string;
+  difficulty?: string | number;
+  questionBankId?: number;
   tags: string[];
   answer: string;
 }
@@ -86,6 +94,9 @@ export interface QuestionUpdateRequest {
   id: number;
   title: string;
   content: string;
+  type?: string;
+  difficulty?: string | number;
+  questionBankId?: number;
   tags: string[];
   answer: string;
 }
@@ -97,6 +108,8 @@ export interface QuestionQueryRequest {
   title?: string;
   searchText?: string;
   content?: string;
+  type?: string;
+  difficulty?: string | number;
   tags?: string[];
   answer?: string;
   questionBankId?: number;
@@ -108,6 +121,9 @@ export interface QuestionVO {
   id: number;
   title: string;
   content: string;
+  type?: string;
+  difficulty?: string | number;
+  questionBankId?: number;
   answer: string;
   tagList: string[];
   // 兼容旧字段，避免历史组件直接读取 tags 导致空白

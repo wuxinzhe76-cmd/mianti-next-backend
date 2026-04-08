@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory, type RouteRecord } from 'vue-router';
+import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 
-const routes: RouteRecord[] = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/',
     redirect: '/home',
