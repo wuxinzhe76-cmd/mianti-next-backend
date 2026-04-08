@@ -35,7 +35,7 @@
                 {{ user?.userName?.charAt(0) || 'U' }}
               </el-avatar>
               <div class="user-details">
-                <p class="user-name">{{ user?.userName || '未登录' }}</p>
+                <p class="user-name">{{ userStore.displayLabel }}</p>
                 <p class="user-role">{{ user?.userRole === 'admin' ? '管理员' : '普通用户' }}</p>
               </div>
             </div>

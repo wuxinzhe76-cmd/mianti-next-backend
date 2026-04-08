@@ -14,6 +14,12 @@ export const useUserStore = defineStore('user', {
   getters: {
     isLoggedIn: (state) => !!state.user,
     isAdmin: (state) => state.user?.userRole === 'admin',
+    /** 展示用昵称：已登录但昵称为空时仍显示账号或「用户」，避免与「未登录」混淆 */
+    displayLabel: (state) => {
+      if (!state.user) return '未登录';
+      const name = state.user.userName?.trim();
+      return name || '用户';
+    },
   },
   actions: {
     async login(loginData: UserLoginRequest) {
@@ -47,18 +53,10 @@ export const useUserStore = defineStore('user', {
       }
     },
     async getCurrentUser() {
-      try {
-        const response = await getCurrentUser();
-        this.user = response.data.data;
-        localStorage.setItem('user', JSON.stringify(this.user));
-        return response;
-      } catch (error) {
-        this.token = '';
-        this.user = null;
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        throw error;
-      }
+      const response = await getCurrentUser();
+      this.user = response.data.data;
+      localStorage.setItem('user', JSON.stringify(this.user));
+      return response;
     },
     initializeFromStorage() {
       const savedUser = localStorage.getItem('user');
