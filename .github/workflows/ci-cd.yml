@@ -80,53 +80,104 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
           cache: maven
-      
+
       - name: Build with Maven
         run: mvn clean package -DskipTests
-      
+
       - name: Upload J Artifact
         uses: actions/upload-artifact@v4
         with:
           name: mianti-backend
           path: target/*.jar
 
-  deploy:
-    name: Deploy to DigitalOcean
-    needs: build
+  build-frontend:
+    name: Build Frontend
+    needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mianti-next-frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: mianti-next-frontend
+        run: npm install
+
+      - name: Build
+        working-directory: mianti-next-frontend
+        run: npm run build
+
+      - name: Upload Frontend Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mianti-frontend
+          path: mianti-next-frontend/dist/
+
+  deploy:
+    name: Deploy via Tailscale
+    needs: [build, build-frontend]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
     steps:
       - name: Download JAR Artifact
         uses: actions/download-artifact@v4
         with:
           name: mianti-backend
           path: target/
-      
-      - name: Deploy to DigitalOcean Droplet
+
+      - name: Download Frontend Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: mianti-frontend
+          path: dist-frontend/
+
+      - name: Set up Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTH_KEY }}
+
+      - name: Deploy Backend to Server
         uses: appleboy/scp-action@master
         with:
-          host: ${{ secrets.DO_DROPLET_IP }}
+          host: 100.98.245.102
           username: ${{ secrets.DO_SSH_USER }}
           key: ${{ secrets.DO_SSH_KEY }}
           port: ${{ secrets.DO_SSH_PORT || 22 }}
           source: "target/*.jar"
           target: "/opt/mianti/"
-      
+
+      - name: Deploy Frontend to Server
+        uses: appleboy/scp-action@master
+        with:
+          host: 100.98.245.102
+          username: ${{ secrets.DO_SSH_USER }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          port: ${{ secrets.DO_SSH_PORT || 22 }}
+          source: "dist-frontend/"
+          target: "/opt/mianti/frontend/"
+
       - name: Restart Application
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.DO_DROPLET_IP }}
+          host: 100.98.245.102
           username: ${{ secrets.DO_SSH_USER }}
           key: ${{ secrets.DO_SSH_KEY }}
           port: ${{ secrets.DO_SSH_PORT || 22 }}
