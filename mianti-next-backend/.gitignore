@@ -49,6 +49,8 @@ build/
 
 # Package Files #
 *.jar
+# Exception: keep local lib dependencies
+!lib/*.jar
 *.war
 *.nar
 *.ear
