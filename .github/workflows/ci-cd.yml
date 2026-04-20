@@ -14,7 +14,11 @@ jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
-    
+
+    defaults:
+      run:
+        working-directory: mianti-next-backend
+
     services:
       mysql:
         image: mysql:8.0
@@ -28,7 +32,7 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-      
+
       redis:
         image: redis:7
         ports:
@@ -38,48 +42,52 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=3
-    
+
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Set up JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
           cache: maven
-      
+
       - name: Cache Maven packages
         uses: actions/cache@v4
         with:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      
+
       - name: Run Tests with Coverage
         run: mvn test -Dspring.profiles.active=test
         env:
           SENTRY_DSN: ""
-      
+
       - name: Upload Coverage Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: coverage-report
-          path: target/site/jacoco/
-      
+          path: mianti-next-backend/target/site/jacoco/
+
       - name: Upload Test Results
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results
-          path: target/surefire-reports/
+          path: mianti-next-backend/target/surefire-reports/
 
   build:
     name: Build Application
     needs: test
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    defaults:
+      run:
+        working-directory: mianti-next-backend
 
     steps:
       - uses: actions/checkout@v4
@@ -98,7 +106,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mianti-backend
-          path: target/*.jar
+          path: mianti-next-backend/target/*.jar
 
   build-frontend:
     name: Build Frontend
