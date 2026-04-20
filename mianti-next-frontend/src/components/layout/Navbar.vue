@@ -30,6 +30,10 @@
           <el-icon><Monitor /></el-icon>
           <span>在线练习</span>
         </el-menu-item>
+        <el-menu-item index="/interview/setup">
+          <el-icon><ChatLineSquare /></el-icon>
+          <span>AI 面试</span>
+        </el-menu-item>
         <el-menu-item index="/questionBankQuestion/list" v-if="isAdmin">
           <el-icon><Link /></el-icon>
           <span>题库题目关联</span>

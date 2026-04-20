@@ -9,6 +9,7 @@ import com.charles.mianti.exception.ThrowUtils;
 import com.charles.mianti.mapper.QuestionBankQuestionMapper;
 import com.charles.mianti.mapper.QuestionMapper;
 import com.charles.mianti.model.dto.interview.AiInterviewResponseDTO;
+import com.charles.mianti.model.dto.interview.InterviewStartResponse;
 import com.charles.mianti.model.entity.InterviewRecord;
 import com.charles.mianti.model.entity.InterviewSession;
 import com.charles.mianti.model.entity.Question;
@@ -57,7 +58,7 @@ public class InterviewServiceImpl implements InterviewService {
     private InterviewReportProducer reportProducer;
 
     @Override
-    public Long startInterview(Long userId, Integer mode, Long bankId) {
+    public InterviewStartResponse startInterview(Long userId, Integer mode, Long bankId) {
         ThrowUtils.throwIf(userId == null || userId <= 0, ErrorCode.PARAMS_ERROR, "用户 ID 非法");
         InterviewModeEnum modeEnum = InterviewModeEnum.getEnumByValue(mode);
         ThrowUtils.throwIf(modeEnum == null, ErrorCode.PARAMS_ERROR, "面试模式非法");
@@ -92,7 +93,12 @@ public class InterviewServiceImpl implements InterviewService {
         appendHistory(sessionId, "assistant", openingQuestion);
 
         log.info("Interview session started, sessionId={}, firstQuestionId={}", sessionId, firstQuestion.getId());
-        return sessionId;
+
+        InterviewStartResponse result = new InterviewStartResponse();
+        result.setSessionId(sessionId);
+        result.setOpeningQuestion(openingQuestion);
+        result.setCurrentTopicMastery(0);
+        return result;
     }
 
     @Override

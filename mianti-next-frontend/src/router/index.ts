@@ -122,6 +122,32 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: '/interview',
+    name: 'Interview',
+    component: () => import('@/views/interview/InterviewLayout.vue'),
+    meta: { title: 'AI 面试', requiresAuth: true },
+    children: [
+      {
+        path: 'setup',
+        name: 'InterviewSetup',
+        component: () => import('@/views/interview/InterviewSetup.vue'),
+        meta: { title: '面试设置' },
+      },
+      {
+        path: 'session/:sessionId',
+        name: 'InterviewSession',
+        component: () => import('@/views/interview/InterviewSession.vue'),
+        meta: { title: '面试进行中' },
+      },
+      {
+        path: 'report/:sessionId',
+        name: 'InterviewReport',
+        component: () => import('@/views/interview/InterviewReport.vue'),
+        meta: { title: '面试报告' },
+      },
+    ],
+  },
+  {
     path: '/question/practice-list',
     name: 'PracticeList',
     component: () => import('@/views/practice/PracticeList.vue'),

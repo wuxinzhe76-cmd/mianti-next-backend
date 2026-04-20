@@ -185,3 +185,37 @@ export interface QuestionBankQuestionVO {
 export interface DeleteRequest {
   id: number;
 }
+
+// AI 面试相关类型
+export interface InterviewStartRequest {
+  mode: number;  // 1 = 指定题库, 2 = 大厂随机
+  bankId?: number;
+}
+
+export interface InterviewStartResponse {
+  sessionId: number;
+  openingQuestion: string;
+  currentTopicMastery: number;
+}
+
+export interface InterviewAnswerRequest {
+  sessionId: number;
+  answer: string;
+}
+
+export type ActionDirective = 'DEEP_DIVE' | 'NEXT_QUESTION' | 'END_INTERVIEW';
+
+export interface AiInterviewResponseDTO {
+  replyToUser: string;
+  actionDirective: ActionDirective;
+  currentTopicMastery: number;
+}
+
+export interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+  masteryScore?: number;
+  directive?: ActionDirective;
+}

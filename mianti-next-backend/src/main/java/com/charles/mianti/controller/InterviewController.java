@@ -7,6 +7,7 @@ import com.charles.mianti.exception.BusinessException;
 import com.charles.mianti.model.dto.interview.AiInterviewResponseDTO;
 import com.charles.mianti.model.dto.interview.InterviewAnswerRequest;
 import com.charles.mianti.model.dto.interview.InterviewStartRequest;
+import com.charles.mianti.model.dto.interview.InterviewStartResponse;
 import com.charles.mianti.model.entity.User;
 import com.charles.mianti.service.InterviewService;
 import com.charles.mianti.service.UserService;
@@ -31,18 +32,18 @@ public class InterviewController {
      * 开始面试
      */
     @PostMapping("/start")
-    public BaseResponse<Long> startInterview(@RequestBody InterviewStartRequest interviewStartRequest,
+    public BaseResponse<InterviewStartResponse> startInterview(@RequestBody InterviewStartRequest interviewStartRequest,
                                              HttpServletRequest request) {
         if (interviewStartRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
         User loginUser = userService.getLoginUser(request);
-        Long sessionId = interviewService.startInterview(
+        InterviewStartResponse result = interviewService.startInterview(
                 loginUser.getId(),
                 interviewStartRequest.getMode(),
                 interviewStartRequest.getBankId()
         );
-        return ResultUtils.success(sessionId);
+        return ResultUtils.success(result);
     }
 
     /**
