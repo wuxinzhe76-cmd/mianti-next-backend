@@ -100,6 +100,14 @@ spring:
     port: 6379
     timeout: 5000
     password: 123456
+  # Spring ai配置
+  ai:
+    dashscope:
+      api-key: "your-dashscope-api-key" # 替换为你的阿里云 DashScope API Key
+      chat:
+        options:
+          model: qwen-plus # 推荐使用 qwen-plus 或 qwen-max，逻辑能力更强
+          temperature: 0.7 # 保持一定的创造性，但不要太发散
   # Elasticsearch 配置
   elasticsearch:
     uris: http://100.98.245.102:9200
@@ -176,3 +184,17 @@ knife4j:
         api-rule: package
         api-rule-resources:
           - com.yupi.mianti.controller
+
+# Sentry 错误监控配置
+sentry:
+  dsn: ${SENTRY_DSN:https://03a2defadffd5c2b15844d133af9f56e@o4511232669974528.ingest.us.sentry.io/4511232673447936}
+  environment: ${SENTRY_ENVIRONMENT:development}
+  traces-sample-rate: 1.0
+  send-default-pii: true
+
+# Flyway 数据库版本管理
+spring.flyway:
+  enabled: ${FLYWAY_ENABLED:false}
+  locations: classpath:db/migration
+  baseline-on-migrate: true
+  baseline-version: 0

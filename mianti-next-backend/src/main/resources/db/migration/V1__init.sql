@@ -1,0 +1,5 @@
+-- Base migration script placeholder
+-- Add your actual SQL migrations here in order:
+-- V1__init.sql
+-- V2__add_table.sql
+-- etc.

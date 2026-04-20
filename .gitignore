@@ -1,0 +1,20 @@
+# .gitignore - Development
+*.class
+*.log
+target/
+.idea/
+*.iml
+.DS_Store
+
+# Sensitive data - DO NOT commit
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+*.swp
+*.swo
+
+# OS
+Thumbs.db

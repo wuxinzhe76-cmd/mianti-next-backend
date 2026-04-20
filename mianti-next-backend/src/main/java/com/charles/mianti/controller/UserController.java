@@ -3,7 +3,6 @@ package com.charles.mianti.controller;
 import com.charles.mianti.common.BaseResponse;
 import com.charles.mianti.common.ErrorCode;
 import com.charles.mianti.common.ResultUtils;
-import com.charles.mianti.constant.UserConstant;
 import com.charles.mianti.exception.BusinessException;
 import com.charles.mianti.model.dto.user.UserLoginRequest;
 import com.charles.mianti.model.dto.user.UserRegisterRequest;
@@ -16,16 +15,14 @@ import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 用户控制器

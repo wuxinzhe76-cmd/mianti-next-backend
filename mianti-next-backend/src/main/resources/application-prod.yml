@@ -1,31 +1,114 @@
-# 线上配置文件
-# @author Charles
-# @from <a href="https://code-nav.cn">编程导航</a>
-server:
-  port: 8101
+# 生产环境配置
 spring:
-  # 数据库配置
-  # todo 需替换配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://100.98.245.102:3306/mianti
-    username: root
-    password: 123456
-  # Redis 配置
-  # todo 需替换配置
+    url: ${DB_URL:jdbc:mysql://localhost:3306/mianti_prod}
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:}
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 10
+      minIdle: 10
+      max-active: 100
+      max-wait: 3000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      max-evictable-idle-time-millis: 600000
+      validationQuery: select 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 20
+      keepAlive: true
+      filters: stat,wall
+      filter:
+        stat:
+          enabled: true
+          db-type: mysql
+          log-slow-sql: true
+          slow-sql-millis: 2000
+      web-stat-filter:
+        enabled: false
+      stat-view-servlet:
+        enabled: false
   redis:
-    database: 1
-    host: 100.98.245.102
-    port: 6379
+    database: 0
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
     timeout: 5000
-    password: 123456
+    password: ${REDIS_PASSWORD:}
+  ai:
+    dashscope:
+      api-key: ${DASHSCOPE_API_KEY}
+      chat:
+        options:
+          model: qwen-plus
+          temperature: 0.5
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URI:http://localhost:9200}
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    baseline-version: 0
+
+server:
+  address: 0.0.0.0
+  port: ${SERVER_PORT:8101}
+  servlet:
+    context-path: /api
+    session:
+      cookie:
+        max-age: 2592000
+        secure: true
+        http-only: true
+
+sentry:
+  dsn: ${SENTRY_DSN}
+  environment: production
+  traces-sample-rate: 0.5
+  send-default-pii: false
+
+sa-token:
+  timeout: 2592000
+  active-timeout: 86400
+  is-concurrent: false
+  is-share: false
+  token-style: uuid
+  is-log: false
+
+hotkey:
+  app-name: mianti-prod
+  caffeine-size: 50000
+  push-period: 1000
+  etcd-server: ${ETCD_SERVER:http://localhost:2379}
+
+nacos:
+  config:
+    server-addr: ${NACOS_SERVER:localhost:8848}
+    bootstrap:
+      enable: true
+    data-id: mianti
+    group: DEFAULT_GROUP
+    type: yaml
+    auto-refresh: true
+    enabled: ${NACOS_ENABLED:true}
+
+knife4j:
+  enable: false
+
+wx:
+  open:
+    appId: ${WX_APP_ID}
+    appSecret: ${WX_APP_SECRET}
+
 mybatis-plus:
   configuration:
-    # 生产环境关闭日志
-    log-impl: ''
-# 接口文档配置
-knife4j:
-  basic:
-    enable: true
-    username: root
-    password: 123456
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+  global-config:
+    db-config:
+      logic-delete-field: isDelete
+      logic-delete-value: 1
+      logic-not-delete-value: 0

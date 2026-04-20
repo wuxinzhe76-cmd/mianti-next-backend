@@ -9,7 +9,7 @@ import com.charles.mianti.model.entity.User;
 import com.charles.mianti.model.vo.QuestionBankQuestionVO;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**

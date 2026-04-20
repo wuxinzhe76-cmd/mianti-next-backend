@@ -7,7 +7,7 @@ import com.charles.mianti.model.dto.question.QuestionQueryRequest;
 import com.charles.mianti.model.entity.Question;
 import com.charles.mianti.model.vo.QuestionVO;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 

@@ -7,7 +7,7 @@ import com.charles.mianti.model.dto.questionBank.QuestionBankQueryRequest;
 import com.charles.mianti.model.entity.QuestionBank;
 import com.charles.mianti.model.vo.QuestionBankVO;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 题库服务

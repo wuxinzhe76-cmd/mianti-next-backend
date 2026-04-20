@@ -1,27 +1,31 @@
-# 测试配置文件
-# @author Charles
-# 
-server:
-  port: 8101
+# 测试环境配置
 spring:
-  # 数据库配置
-  # todo 需替换配置
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://100.98.245.102:3306/mianti
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mysql:8.0:///mianti_test
     username: root
-    password: 123456
-  # Redis 配置
-  # todo 需替换配置
+    password: test
   redis:
-    database: 1
-    host: 100.98.245.102
+    database: 0
+    host: localhost
     port: 6379
-    timeout: 5000
-    password: 123456
-  # Elasticsearch 配置
-  # todo 需替换配置
-  elasticsearch:
-    uris: http://100.98.245.102:9200
-    username: root
-    password: 123456
+    password: ''
+  flyway:
+    enabled: false
+
+# 关闭不必要的组件
+hotkey:
+  app-name: mianti-test
+  caffeine-size: 1000
+  push-period: 1000
+  etcd-server: http://localhost:2379
+
+nacos:
+  config:
+    enabled: false
+
+sa-token:
+  is-log: false
+
+server:
+  port: 8102

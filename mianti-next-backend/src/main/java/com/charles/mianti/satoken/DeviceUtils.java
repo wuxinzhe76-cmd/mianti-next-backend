@@ -7,7 +7,7 @@ import cn.hutool.http.useragent.UserAgentUtil;
 import com.charles.mianti.common.ErrorCode;
 import com.charles.mianti.exception.ThrowUtils;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 设备工具类

@@ -1,0 +1,44 @@
+熟 练 掌 握 Java 语言，深入理解Java语言特性，掌握面向对象思想，深度阅读部分集合源码
+
+• 熟悉 JVM（Java 虚拟机），对垃圾回收、类加载机制、JMM（Java 内存模型），对虚拟机主要特性有着深度理解
+
+• 熟练掌握并发编程，深入理解并发编程主要特性，对部分源码有深入理解，熟练使用 CompletableFuture 等异步编程模型
+
+• 熟练掌握 MySQL，对 MySQL 机制拥有深入理解，理解库表、索引、查询优化
+
+• 熟 练使 用 Spring、SpringMVC框架，深度阅读Spring框架部分源码，对Spring IOC 和 AOP 思想有着较好理解
+
+• 熟 练 掌 握 Spring AI 框架，具备 LLM 应用开发实战经验，熟悉结构化输出（Structured Output）、Prompt Engineering、上下文窗口管理等大模型工程化实践
+
+• 熟悉 TCP/IP 协议，了解网络编程，熟悉 NIO
+
+• 熟悉 Netty 框架（基于 NIO），阅读主要组件源码，掌握 Netty 线程模型，掌握 Netty 高性能思想，并基于 Netty 写了一款零配置基于注解的轻量级RPC 框架
+
+• 熟悉常用数据结构、操作系统基础知识、计算机组成原理
+
+• 熟悉 Redis 主要机制（RDB、AOF、主从复制、Sentinel），了解 Redis 主要特性实现原理，理解 Redis 底层数据结构，掌握 Redisson 分布式数据结构（RList/RSet/RAtomicLong/RBucket）
+
+
+基于 Spring Boot、MyBatis-Plus 实现的面试刷题平台（含 AI 面试与在线判题）    2025.6 - 2025.8
+
+• 责任描述：参与设计与开发一个高可用的题库管理系统，采用前后端分离架构，实现了用户认证、题库管理、题目管理、AI 模拟面试、在线代码判题等核心功能模块。
+
+• 项目简介：负责系统整体架构设计，遵循 RESTful 风格设计 API 接口，基于 Spring Boot + MyBatis-Plus 构建后端服务。负责用户模块开发，独立完成用户注册/登录、微信授权登录功能，基于 Sa-Token 实现 RBAC 权限认证。在题目搜索场景中，基于 Elasticsearch 实现全文检索，并设计数据库降级方案；利用 Sentinel 实现接口限流（QPS 控制）与熔断降级，防止爬虫恶意访问；基于 Redis + Redisson 实现热点数据缓存，通过京东 HotKey 探测实现 Caffeine 本地缓存加速；基于 AOP 实现统一权限校验与操作日志拦截；利用 Redis 计数器实现访问频率监控，设计实现爬虫检测与自动封号机制；基于 Druid 实现数据库连接池监控与慢 SQL 日志记录。
+
+• AI 模拟面试：基于 Spring AI Alibaba + 通义千问（DashScope）构建 AI 面试官，采用结构化输出（.entity() 强类型反序列化）强制 LLM 返回严格 JSON，通过 actionDirective（DEEP_DIVE / NEXT_QUESTION / END_INTERVIEW）实现 AI 驱动的面试状态机，后端根据指令自动完成话题深入、题目切换、会话终结等路由分发。设计双模式面试（指定题库针对性练习 / 随机大厂全真模拟），通过 System Prompt 注入面试官人设与行为规则。实现 Redis 热数据存储方案（会话期间全部数据驻留 Redis，TTL 自动过期），结合滑动窗口截取最近 N 轮对话历史控制 Token 消耗。面试结束后将 Redis 数据批量刷入 MySQL 并通过 RabbitMQ 异步生成面试报告。
+
+• 在线代码判题系统（Online Judge）：设计并实现 ACM 风格的代码判题引擎，支持 Java / C++ / Python / JavaScript 多语言编译执行。采用策略模式抽象 CodeSandbox 接口，通过 ProcessBuilder + Runtime.exec() 实现代码沙箱本地执行，支持编译型语言（Java/C++）先编译后执行、解释型语言（Python/JS）直接运行。判题过程采用 CompletableFuture 异步处理，提交后即刻返回 Submission ID，后台逐条跑测试用例并 fail-fast 终止。实现超时控制（Process.waitFor + destroyForcibly）、内存限制（JVM -Xmx 参数注入）、输出规范化（跨平台换行符统一）， verdict 覆盖 AC / WA / TLE / MLE / RE / CE 八种状态。前端集成 Monaco Editor（VS Code 内核）实现语法高亮代码编辑，配合 2s 轮询实现判题结果实时展示。
+
+• 题目统计与通过率计算：代码判题 ACCEPTED 后自动更新题目提交数、通过数、通过率等统计指标，支持部分计分（OI 赛制）——每条测试用例独立赋分，总分累加。
+
+
+（以下为可选补充技能条目，可根据实际掌握程度选择性添加）
+
+【可选补充 1】—— 如果你读过 Spring AI 源码：
+• 了解 Spring AI 核心原理，阅读 ChatClient / Prompt / Structured Output 相关源码，理解 Spring AI 对大模型 API 的抽象层设计
+
+【可选补充 2】—— 如果你计划做 Docker 沙箱：
+• 了解代码沙箱安全隔离方案，生产环境计划采用 Docker 容器实现代码执行的资源隔离与安全限制
+
+【可选补充 3】—— 关于并发编程补充：
+• 熟练使用 CompletableFuture 构建异步非阻塞任务编排，理解线程池核心参数与拒绝策略，了解 JUC 包下常用并发工具类

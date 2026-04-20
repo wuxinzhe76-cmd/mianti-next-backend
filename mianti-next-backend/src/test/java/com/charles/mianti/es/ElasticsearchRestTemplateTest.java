@@ -3,7 +3,7 @@ package com.charles.mianti.es;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.core.IndexOperations;
 import org.springframework.data.elasticsearch.core.document.Document;
 import org.springframework.data.elasticsearch.core.query.*;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ElasticsearchRestTemplateTest {
 
     @Autowired
-    private ElasticsearchRestTemplate elasticsearchRestTemplate;
+    private ElasticsearchOperations elasticsearchOperations;
 
     private final String INDEX_NAME = "test_index";
 
@@ -37,7 +37,7 @@ public class ElasticsearchRestTemplateTest {
         doc.put("isDelete", false);
 
         IndexQuery indexQuery = new IndexQueryBuilder().withId("1").withObject(doc).build();
-        String documentId = elasticsearchRestTemplate.index(indexQuery, IndexCoordinates.of(INDEX_NAME));
+        String documentId = elasticsearchOperations.index(indexQuery, IndexCoordinates.of(INDEX_NAME));
 
         assertThat(documentId).isNotNull();
     }
@@ -47,7 +47,7 @@ public class ElasticsearchRestTemplateTest {
     public void getDocument() {
         String documentId = "1";  // Replace with the actual ID of an indexed document
 
-        Map<String, Object> document = elasticsearchRestTemplate.get(documentId, Map.class, IndexCoordinates.of(INDEX_NAME));
+        Map<String, Object> document = elasticsearchOperations.get(documentId, Map.class, IndexCoordinates.of(INDEX_NAME));
 
         assertThat(document).isNotNull();
         assertThat(document.get("title")).isEqualTo("Elasticsearch Introduction");
@@ -66,9 +66,9 @@ public class ElasticsearchRestTemplateTest {
                 .withDocument(Document.from(updates))
                 .build();
 
-        elasticsearchRestTemplate.update(updateQuery, IndexCoordinates.of(INDEX_NAME));
+        elasticsearchOperations.update(updateQuery, IndexCoordinates.of(INDEX_NAME));
 
-        Map<String, Object> updatedDocument = elasticsearchRestTemplate.get(documentId, Map.class, IndexCoordinates.of(INDEX_NAME));
+        Map<String, Object> updatedDocument = elasticsearchOperations.get(documentId, Map.class, IndexCoordinates.of(INDEX_NAME));
         assertThat(updatedDocument.get("title")).isEqualTo("Updated Elasticsearch Title");
     }
 
@@ -77,14 +77,14 @@ public class ElasticsearchRestTemplateTest {
     public void deleteDocument() {
         String documentId = "1";  // Replace with the actual ID of an indexed document
 
-        String result = elasticsearchRestTemplate.delete(documentId, IndexCoordinates.of(INDEX_NAME));
+        String result = elasticsearchOperations.delete(documentId, IndexCoordinates.of(INDEX_NAME));
         assertThat(result).isNotNull();
     }
 
     // Delete the entire index
     @Test
     public void deleteIndex() {
-        IndexOperations indexOps = elasticsearchRestTemplate.indexOps(IndexCoordinates.of(INDEX_NAME));
+        IndexOperations indexOps = elasticsearchOperations.indexOps(IndexCoordinates.of(INDEX_NAME));
         boolean deleted = indexOps.delete();
         assertThat(deleted).isTrue();
     }
