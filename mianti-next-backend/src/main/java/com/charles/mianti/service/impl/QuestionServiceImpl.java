@@ -33,6 +33,7 @@ import co.elastic.clients.elasticsearch._types.SortOrder;
 import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.elasticsearch.client.elc.NativeQuery;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
@@ -66,7 +67,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
     @Resource
     private QuestionBankQuestionService questionBankQuestionService;
 
-    @Resource
+    @Autowired(required = false)
     private ElasticsearchOperations elasticsearchOperations;
 
     /**
@@ -258,6 +259,13 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
      */
     @Override
     public Page<Question> searchFromEs(QuestionQueryRequest questionQueryRequest) {
+        if (elasticsearchOperations == null) {
+            log.warn("Elasticsearch is not configured, returning empty page");
+            Page<Question> emptyPage = new Page<>();
+            emptyPage.setRecords(new ArrayList<>());
+            emptyPage.setTotal(0);
+            return emptyPage;
+        }
         Long id = questionQueryRequest.getId();
         Long notId = questionQueryRequest.getNotId();
         String searchText = questionQueryRequest.getSearchText();

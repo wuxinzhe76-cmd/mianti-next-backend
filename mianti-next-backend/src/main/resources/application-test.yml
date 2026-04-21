@@ -1,8 +1,8 @@
 # 测试环境配置
 spring:
   datasource:
-    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:mysql:8.0:///mianti_test
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/mianti_test
     username: root
     password: test
   redis:
@@ -12,6 +12,13 @@ spring:
     password: ''
   flyway:
     enabled: false
+  # 排除测试环境中不可用的自动配置
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.elasticsearch.ElasticsearchClientAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchRepositoriesAutoConfiguration
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeChatPropertiesAutoConfiguration
 
 # 关闭不必要的组件
 hotkey:
